@@ -71,6 +71,7 @@ class GameViewController: UIViewController {
                 let boxNode = SCNNode(geometry: geometry)
                 boxNode.position.x = Float(xIndex - offset)
                 boxNode.position.y = Float(yIndex - offset)
+                boxNode.position.z = 0
                 self.gridBoxes.append(boxNode)
             }
         }
@@ -90,27 +91,14 @@ class GameViewController: UIViewController {
             // retrieved the first clicked object
             let result = hitResults[0]
 
-            
-            // get its material
-            let material = result.node.geometry!.firstMaterial!
-
-            // highlight it
-            SCNTransaction.begin()
-            SCNTransaction.animationDuration = 0.5
-
-            // on completion - unhighlight
-            SCNTransaction.completionBlock = {
-                SCNTransaction.begin()
-                SCNTransaction.animationDuration = 0.5
-
-                material.emission.contents = UIColor.black
-
-                SCNTransaction.commit()
+            if gridBoxes.contains(result.node) {
+                let geometry = SCNBox(width: 0.8, height: 0.8, length: 0.8, chamferRadius: 0.005)
+                geometry.firstMaterial?.diffuse.contents = UIColor.red
+                let boxNode = SCNNode(geometry: geometry)
+                boxNode.position = result.node.position
+                boxNode.position.z = 0.4
+                scnView.scene?.rootNode.addChildNode(boxNode)
             }
-
-            material.emission.contents = UIColor.red
-
-            SCNTransaction.commit()
         }
     }
     
