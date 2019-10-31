@@ -13,12 +13,15 @@ import SceneKit
 class GameViewController: UIViewController {
 
     var gridBoxes: [SCNNode] = []
+    var grid: Grid?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         // create a new scene
         let scene = SCNScene()
+        
+        grid = Grid(size: 32, distance: 8)
         
         createGrid()
         for box in gridBoxes {
@@ -62,15 +65,15 @@ class GameViewController: UIViewController {
     }
     
     func createGrid() {
-        let offset = 8
-
-        for xIndex:Int in 0...32 {
-            for yIndex:Int in 0...32 {
+        guard let grid = self.grid else { return }
+        
+        for i in 0..<grid.size {
+            for j in 0..<grid.size {
                 let geometry = SCNBox(width: 0.8, height: 0.8, length: 0, chamferRadius: 0.005)
                 geometry.firstMaterial?.diffuse.contents = UIColor.gray
                 let boxNode = SCNNode(geometry: geometry)
-                boxNode.position.x = Float(xIndex - offset)
-                boxNode.position.y = Float(yIndex - offset)
+                boxNode.position.x = grid.grid[i][j].position.x
+                boxNode.position.y = grid.grid[i][j].position.y
                 boxNode.position.z = 0
                 self.gridBoxes.append(boxNode)
             }
