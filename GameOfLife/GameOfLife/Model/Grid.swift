@@ -12,10 +12,12 @@ class Grid {
     var size: Int
     var distance: Int
     var grid: [[Cell]]
+    var rules: [Rule]
     
     init(size: Int, distance: Int) {
         self.size = size
         self.distance = distance
+        self.rules = []
         
         grid = [[Cell]]()
         for i in 0..<size {
@@ -44,5 +46,5 @@ class Grid {
         }
         cell.aliveNeighbours = aliveNeighbours
     }
-    
+
 }
