@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		E4489874236B71F300067BC2 /* Box.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4489873236B71F300067BC2 /* Box.swift */; };
+		E4489876236B776000067BC2 /* Rule.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4489875236B776000067BC2 /* Rule.swift */; };
 		E4D13CAF236B4FAF00F1366B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4D13CAE236B4FAF00F1366B /* AppDelegate.swift */; };
 		E4D13CB1236B4FAF00F1366B /* art.scnassets in Resources */ = {isa = PBXBuildFile; fileRef = E4D13CB0236B4FAF00F1366B /* art.scnassets */; };
 		E4D13CB3236B4FAF00F1366B /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4D13CB2236B4FAF00F1366B /* GameViewController.swift */; };
@@ -20,6 +21,7 @@
 
 /* Begin PBXFileReference section */
 		E4489873236B71F300067BC2 /* Box.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Box.swift; sourceTree = "<group>"; };
+		E4489875236B776000067BC2 /* Rule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Rule.swift; sourceTree = "<group>"; };
 		E4D13CAB236B4FAF00F1366B /* GameOfLife.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GameOfLife.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E4D13CAE236B4FAF00F1366B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E4D13CB0236B4FAF00F1366B /* art.scnassets */ = {isa = PBXFileReference; lastKnownFileType = wrapper.scnassets; path = art.scnassets; sourceTree = "<group>"; };
@@ -96,6 +98,7 @@
 			children = (
 				E4D13CC2236B68D400F1366B /* Cell.swift */,
 				E4D13CC6236B6A3700F1366B /* Grid.swift */,
+				E4489875236B776000067BC2 /* Rule.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -175,6 +178,7 @@
 				E4D13CB3236B4FAF00F1366B /* GameViewController.swift in Sources */,
 				E4D13CAF236B4FAF00F1366B /* AppDelegate.swift in Sources */,
 				E4D13CC3236B68D400F1366B /* Cell.swift in Sources */,
+				E4489876236B776000067BC2 /* Rule.swift in Sources */,
 				E4D13CC7236B6A3700F1366B /* Grid.swift in Sources */,
 				E4489874236B71F300067BC2 /* Box.swift in Sources */,
 			);
