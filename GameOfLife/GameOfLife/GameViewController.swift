@@ -62,17 +62,16 @@ class GameViewController: UIViewController {
     }
     
     func createGrid() {
-        let geometry = SCNBox(width: 0.8, height: 0.8, length: 0, chamferRadius: 0.005)
-        geometry.firstMaterial?.diffuse.contents = UIColor.gray
-        let boxnode = SCNNode(geometry: geometry)
         let offset = 8
 
         for xIndex:Int in 0...32 {
             for yIndex:Int in 0...32 {
-                let boxCopy = boxnode.copy() as! SCNNode
-                boxCopy.position.x = Float(xIndex - offset)
-                boxCopy.position.y = Float(yIndex - offset)
-                self.gridBoxes.append(boxCopy)
+                let geometry = SCNBox(width: 0.8, height: 0.8, length: 0, chamferRadius: 0.005)
+                geometry.firstMaterial?.diffuse.contents = UIColor.gray
+                let boxNode = SCNNode(geometry: geometry)
+                boxNode.position.x = Float(xIndex - offset)
+                boxNode.position.y = Float(yIndex - offset)
+                self.gridBoxes.append(boxNode)
             }
         }
     }
@@ -91,7 +90,27 @@ class GameViewController: UIViewController {
             // retrieved the first clicked object
             let result = hitResults[0]
 
-            print(gridBoxes.firstIndex(of: result.node))
+            
+            // get its material
+            let material = result.node.geometry!.firstMaterial!
+
+            // highlight it
+            SCNTransaction.begin()
+            SCNTransaction.animationDuration = 0.5
+
+            // on completion - unhighlight
+            SCNTransaction.completionBlock = {
+                SCNTransaction.begin()
+                SCNTransaction.animationDuration = 0.5
+
+                material.emission.contents = UIColor.black
+
+                SCNTransaction.commit()
+            }
+
+            material.emission.contents = UIColor.red
+
+            SCNTransaction.commit()
         }
     }
     
