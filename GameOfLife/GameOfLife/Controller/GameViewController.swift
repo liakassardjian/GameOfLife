@@ -75,8 +75,8 @@ class GameViewController: UIViewController {
             self.gridBoxes.append([SCNNode]())
             for j in 0..<grid.size {
                 let boxNode = SCNNode(geometry: Box.shared.deadGeometry)
-                boxNode.position.x = grid.grid[i][j].position.x
-                boxNode.position.y = grid.grid[i][j].position.y
+                boxNode.position.x = Float(grid.grid[i][j].position.x - grid.distance)
+                boxNode.position.y = Float(grid.grid[i][j].position.y - grid.distance)
                 boxNode.position.z = 0
                 self.gridBoxes[i].append(boxNode)
             }
@@ -107,13 +107,11 @@ class GameViewController: UIViewController {
                 cell?.status = .dead
                 boxNode.geometry = Box.shared.deadGeometry
                 boxNode.position.z = 0.0
-
                 break
             case .dead:
                 cell?.status = .alive
                 boxNode.geometry = Box.shared.aliveGeometry
                 boxNode.position.z = 0.4
-                
                 break
             default:
                 break

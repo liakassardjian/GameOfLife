@@ -9,12 +9,14 @@
 import Foundation
 
 class Cell {
-    var position: (x: Float, y: Float)
+    var position: (x: Int, y: Int)
     var status: CellStatus
+    var aliveNeighbours: Int
     
-    init(x: Float, y: Float) {
+    init(x: Int, y: Int) {
         position = (x,y)
         status = .dead
+        aliveNeighbours = 0
     }
 }
 
