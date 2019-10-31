@@ -39,6 +39,10 @@ class GameViewController: UIViewController {
 
         // configure the view
         scnView.backgroundColor = UIColor.white
+        
+        // add a tap gesture recognizer
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTap(_:)))
+        scnView.addGestureRecognizer(tapGesture)
     }
     
     override var shouldAutorotate: Bool {
@@ -73,9 +77,21 @@ class GameViewController: UIViewController {
         }
     }
     
-    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-        for touch in touches {
-            
+    @objc
+    func handleTap(_ gestureRecognize: UIGestureRecognizer) {
+        // retrieve the SCNView
+        let scnView = self.view as! SCNView
+
+        // check what nodes are tapped
+        let p = gestureRecognize.location(in: scnView)
+        let hitResults = scnView.hitTest(p, options: [:])
+        
+        // check that we clicked on at least one object
+        if hitResults.count > 0 {
+            // retrieved the first clicked object
+            let result = hitResults[0]
+
+            print(gridBoxes.firstIndex(of: result.node))
         }
     }
     
