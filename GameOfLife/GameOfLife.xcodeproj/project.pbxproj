@@ -13,6 +13,8 @@
 		E4D13CB6236B4FAF00F1366B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E4D13CB4236B4FAF00F1366B /* Main.storyboard */; };
 		E4D13CB8236B4FB200F1366B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E4D13CB7236B4FB200F1366B /* Assets.xcassets */; };
 		E4D13CBB236B4FB200F1366B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E4D13CB9236B4FB200F1366B /* LaunchScreen.storyboard */; };
+		E4D13CC3236B68D400F1366B /* Cell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4D13CC2236B68D400F1366B /* Cell.swift */; };
+		E4D13CC7236B6A3700F1366B /* Grid.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4D13CC6236B6A3700F1366B /* Grid.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +26,8 @@
 		E4D13CB7236B4FB200F1366B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E4D13CBA236B4FB200F1366B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		E4D13CBC236B4FB200F1366B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E4D13CC2236B68D400F1366B /* Cell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cell.swift; sourceTree = "<group>"; };
+		E4D13CC6236B6A3700F1366B /* Grid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Grid.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,15 +60,33 @@
 		E4D13CAD236B4FAF00F1366B /* GameOfLife */ = {
 			isa = PBXGroup;
 			children = (
+				E4D13CC5236B6A1600F1366B /* Model */,
+				E4D13CC4236B69FB00F1366B /* Controller */,
 				E4D13CAE236B4FAF00F1366B /* AppDelegate.swift */,
 				E4D13CB0236B4FAF00F1366B /* art.scnassets */,
-				E4D13CB2236B4FAF00F1366B /* GameViewController.swift */,
 				E4D13CB4236B4FAF00F1366B /* Main.storyboard */,
 				E4D13CB7236B4FB200F1366B /* Assets.xcassets */,
 				E4D13CB9236B4FB200F1366B /* LaunchScreen.storyboard */,
 				E4D13CBC236B4FB200F1366B /* Info.plist */,
 			);
 			path = GameOfLife;
+			sourceTree = "<group>";
+		};
+		E4D13CC4236B69FB00F1366B /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				E4D13CB2236B4FAF00F1366B /* GameViewController.swift */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		E4D13CC5236B6A1600F1366B /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				E4D13CC2236B68D400F1366B /* Cell.swift */,
+				E4D13CC6236B6A3700F1366B /* Grid.swift */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -141,6 +163,8 @@
 			files = (
 				E4D13CB3236B4FAF00F1366B /* GameViewController.swift in Sources */,
 				E4D13CAF236B4FAF00F1366B /* AppDelegate.swift in Sources */,
+				E4D13CC3236B68D400F1366B /* Cell.swift in Sources */,
+				E4D13CC7236B6A3700F1366B /* Grid.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
