@@ -12,7 +12,7 @@ import SceneKit
 
 class GameViewController: UIViewController {
 
-    var gridBoxes: [SCNNode] = []
+    var gridBoxes: [[SCNNode]] = []
     var grid: Grid?
     
     override func viewDidLoad() {
@@ -21,11 +21,15 @@ class GameViewController: UIViewController {
         // create a new scene
         let scene = SCNScene()
         
+        Box.shared.setColors(deadColor: .gray, aliveColor: .red)
+        
         grid = Grid(size: 32, distance: 8)
         
         createGrid()
-        for box in gridBoxes {
-            scene.rootNode.addChildNode(box)
+        for line in gridBoxes {
+            for box in line {
+                scene.rootNode.addChildNode(box)
+            }
         }
         // retrieve the SCNView
         let scnView = self.view as! SCNView
@@ -68,14 +72,13 @@ class GameViewController: UIViewController {
         guard let grid = self.grid else { return }
         
         for i in 0..<grid.size {
+            self.gridBoxes.append([SCNNode]())
             for j in 0..<grid.size {
-                let geometry = SCNBox(width: 0.8, height: 0.8, length: 0, chamferRadius: 0.005)
-                geometry.firstMaterial?.diffuse.contents = UIColor.gray
-                let boxNode = SCNNode(geometry: geometry)
+                let boxNode = SCNNode(geometry: Box.shared.deadGeometry)
                 boxNode.position.x = grid.grid[i][j].position.x
                 boxNode.position.y = grid.grid[i][j].position.y
                 boxNode.position.z = 0
-                self.gridBoxes.append(boxNode)
+                self.gridBoxes[i].append(boxNode)
             }
         }
     }
@@ -93,16 +96,38 @@ class GameViewController: UIViewController {
         if hitResults.count > 0 {
             // retrieved the first clicked object
             let result = hitResults[0]
+            let index = findCell(node: result.node)
+            
+            let cell = grid?.grid[index.i][index.j]
 
-            if gridBoxes.contains(result.node) {
-                let geometry = SCNBox(width: 0.8, height: 0.8, length: 0.8, chamferRadius: 0.005)
-                geometry.firstMaterial?.diffuse.contents = UIColor.red
-                let boxNode = SCNNode(geometry: geometry)
-                boxNode.position = result.node.position
+            let boxNode = result.node
+            
+            switch cell?.status {
+            case .alive:
+                cell?.status = .dead
+                boxNode.geometry = Box.shared.deadGeometry
+                boxNode.position.z = 0.0
+
+                break
+            case .dead:
+                cell?.status = .alive
+                boxNode.geometry = Box.shared.aliveGeometry
                 boxNode.position.z = 0.4
-                scnView.scene?.rootNode.addChildNode(boxNode)
+                
+                break
+            default:
+                break
             }
+            
         }
     }
     
+    func findCell(node: SCNNode) -> (i: Int, j: Int) {
+        for i in 0..<gridBoxes.count {
+            if let j = gridBoxes[i].firstIndex(of: node) {
+                return (i, j)
+            }
+        }
+        return (0, 0)
+    }
 }
