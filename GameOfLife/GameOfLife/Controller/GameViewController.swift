@@ -14,7 +14,7 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate {
 
     var grid: Grid?
 
-    var gridBoxes: [[SCNNode]] = []
+    var gridBoxes: [[SCNNode?]] = []
     var cameraNode: SCNNode!
     
     var cont: TimeInterval = 0.0
@@ -25,7 +25,7 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate {
 
         let scene = SCNScene()
         
-        Box.shared.setColors(deadColor: .gray, aliveColor: .red)
+        Box.shared.setColors(aliveColor: .red)
         
         grid = Grid(size: 15, distance: 8)
         createGrid(rootNode: scene.rootNode)
@@ -76,22 +76,11 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate {
         
         for i in 0..<grid.size {
             self.gridBoxes.append([SCNNode]())
-            for j in 0..<grid.size {
-                let boxNode = SCNNode(geometry: Box.shared.deadGeometry)
-                boxNode.position.x = Float(grid.grid[i][j].position.x - grid.size/2)
-                boxNode.position.y = Float(grid.grid[i][j].position.y - grid.size/2)
-                boxNode.position.z = 0
-                self.gridBoxes[i].append(boxNode)
-                rootNode.addChildNode(boxNode)
+            for _ in 0..<grid.size {
+                self.gridBoxes[i].append(nil)
             }
         }
     }
-    
-//    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-//        if touches.first != nil {
-//
-//        }
-//    }
     
     func addRandomBlocks(n: Int) {
         for _ in 0..<n {
@@ -113,18 +102,28 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate {
     }
     
     func placeBoxes() {
-        guard let grid = self.grid?.grid else { return }
+        guard let grid = self.grid else { return }
         
-        for i in 0..<grid.count {
-            for j in 0..<grid.count {
-                let cell = grid[i][j]
+        for i in 0..<grid.grid.count {
+            for j in 0..<grid.grid.count {
+                let cell = grid.grid[i][j]
                 let boxNode = gridBoxes[i][j]
                 if cell.status == .alive {
-                    boxNode.geometry = Box.shared.aliveGeometry
-                    boxNode.position.z = 0.4
+                    if boxNode == nil {
+                        gridBoxes[i][j] = createBox(x: cell.position.x, y: cell.position.y, size: grid.size)
+                        
+                        guard let box = gridBoxes[i][j] else { return }
+                        
+                        DispatchQueue.main.async {
+                            let scnView = self.view as! SCNView
+                            scnView.scene?.rootNode.addChildNode(box)
+                        }
+                    }
                 } else {
-                    boxNode.geometry = Box.shared.deadGeometry
-                    boxNode.position.z = 0.0
+                    if boxNode != nil {
+                        gridBoxes[i][j]?.removeFromParentNode()
+                        gridBoxes[i][j] = nil
+                    }
                 }
                 
             }
@@ -137,5 +136,14 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate {
             placeBoxes()
             cont = time + duration
         }
+    }
+    
+    func createBox(x: Int, y: Int, size: Int) -> SCNNode {
+        let boxNode = SCNNode(geometry: Box.shared.aliveGeometry)
+        boxNode.position.x = Float(x - size/2)
+        boxNode.position.y = Float(y - size/2)
+        boxNode.position.z = 0.4
+        
+        return boxNode
     }
 }

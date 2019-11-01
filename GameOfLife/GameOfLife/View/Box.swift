@@ -14,11 +14,9 @@ class Box {
     
     private init() {}
     
-    var deadGeometry = SCNBox(width: 0.8, height: 0.8, length: 0, chamferRadius: 0.005)
     var aliveGeometry = SCNBox(width: 0.8, height: 0.8, length: 0.8, chamferRadius: 0.005)
     
-    func setColors(deadColor: UIColor, aliveColor: UIColor) {
-        deadGeometry.firstMaterial?.diffuse.contents = deadColor
+    func setColors(aliveColor: UIColor) {
         aliveGeometry.firstMaterial?.diffuse.contents = aliveColor
     }
     
