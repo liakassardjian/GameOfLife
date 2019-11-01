@@ -78,7 +78,6 @@ class Grid {
             }
         }
         grid = newGrid
-        printGrid()
     }
     
     func printGrid() {

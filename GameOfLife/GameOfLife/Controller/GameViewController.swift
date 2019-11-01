@@ -12,8 +12,10 @@ import SceneKit
 
 class GameViewController: UIViewController {
 
-    var gridBoxes: [[SCNNode]] = []
     var grid: Grid?
+
+    var gridBoxes: [[SCNNode]] = []
+    var cameraNode: SCNNode!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,11 +32,10 @@ class GameViewController: UIViewController {
         // retrieve the SCNView
         let scnView = self.view as! SCNView
 
-        // set the scene to the view
         scnView.scene = scene
-        scnView.pointOfView?.position = SCNVector3Make(0, 0, 100)
+        scnView.pointOfView?.position = SCNVector3Make(0, 0, 0)
 
-        // allows the user to manipulate the camera
+        setupCamera(rootNode: scene.rootNode)
         scnView.allowsCameraControl = true
 
         // show statistics such as fps and timing information
@@ -42,6 +43,7 @@ class GameViewController: UIViewController {
 
         // configure the view
         scnView.backgroundColor = UIColor.white
+        
     }
     
     override var shouldAutorotate: Bool {
@@ -67,8 +69,8 @@ class GameViewController: UIViewController {
             self.gridBoxes.append([SCNNode]())
             for j in 0..<grid.size {
                 let boxNode = SCNNode(geometry: Box.shared.deadGeometry)
-                boxNode.position.x = Float(grid.grid[i][j].position.x - grid.distance)
-                boxNode.position.y = Float(grid.grid[i][j].position.y - grid.distance)
+                boxNode.position.x = Float(grid.grid[i][j].position.x - grid.size/2)
+                boxNode.position.y = Float(grid.grid[i][j].position.y - grid.size/2)
                 boxNode.position.z = 0
                 self.gridBoxes[i].append(boxNode)
                 rootNode.addChildNode(boxNode)
@@ -78,7 +80,6 @@ class GameViewController: UIViewController {
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         if touches.first != nil {
-            print("Updating...")
             grid?.updateGrid()
             placeBoxes()
         }
@@ -110,7 +111,6 @@ class GameViewController: UIViewController {
             cell?.status = .alive
         }
         placeBoxes()
-        grid?.printGrid()
     }
     
     func placeBoxes() {
@@ -130,5 +130,12 @@ class GameViewController: UIViewController {
                 
             }
         }
+    }
+    
+    func setupCamera(rootNode: SCNNode) {
+      cameraNode = SCNNode()
+      cameraNode.camera = SCNCamera()
+      cameraNode.position = SCNVector3(x: 0, y: 0, z: 30)
+      rootNode.addChildNode(cameraNode)
     }
 }
