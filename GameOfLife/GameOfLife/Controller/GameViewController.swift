@@ -23,20 +23,16 @@ class GameViewController: UIViewController {
         
         Box.shared.setColors(deadColor: .gray, aliveColor: .red)
         
-        grid = Grid(size: 32, distance: 8)
+        grid = Grid(size: 15, distance: 8)
+        createGrid(rootNode: scene.rootNode)
+        addRandomBlocks(n: 100)
         
-        createGrid()
-        for line in gridBoxes {
-            for box in line {
-                scene.rootNode.addChildNode(box)
-            }
-        }
         // retrieve the SCNView
         let scnView = self.view as! SCNView
 
         // set the scene to the view
         scnView.scene = scene
-        scnView.pointOfView?.position = SCNVector3Make(0, 0, 0)
+        scnView.pointOfView?.position = SCNVector3Make(0, 0, 100)
 
         // allows the user to manipulate the camera
         scnView.allowsCameraControl = true
@@ -46,10 +42,6 @@ class GameViewController: UIViewController {
 
         // configure the view
         scnView.backgroundColor = UIColor.white
-        
-        // add a tap gesture recognizer
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTap(_:)))
-        scnView.addGestureRecognizer(tapGesture)
     }
     
     override var shouldAutorotate: Bool {
@@ -68,7 +60,7 @@ class GameViewController: UIViewController {
         }
     }
     
-    func createGrid() {
+    func createGrid(rootNode: SCNNode) {
         guard let grid = self.grid else { return }
         
         for i in 0..<grid.size {
@@ -79,44 +71,16 @@ class GameViewController: UIViewController {
                 boxNode.position.y = Float(grid.grid[i][j].position.y - grid.distance)
                 boxNode.position.z = 0
                 self.gridBoxes[i].append(boxNode)
+                rootNode.addChildNode(boxNode)
             }
         }
     }
     
-    @objc
-    func handleTap(_ gestureRecognize: UIGestureRecognizer) {
-        // retrieve the SCNView
-        let scnView = self.view as! SCNView
-
-        // check what nodes are tapped
-        let p = gestureRecognize.location(in: scnView)
-        let hitResults = scnView.hitTest(p, options: [:])
-        
-        // check that we clicked on at least one object
-        if hitResults.count > 0 {
-            // retrieved the first clicked object
-            let result = hitResults[0]
-            let index = findCell(node: result.node)
-            
-            let cell = grid?.grid[index.i][index.j]
-
-            let boxNode = result.node
-            
-            switch cell?.status {
-            case .alive:
-                cell?.status = .dead
-                boxNode.geometry = Box.shared.deadGeometry
-                boxNode.position.z = 0.0
-                break
-            case .dead:
-                cell?.status = .alive
-                boxNode.geometry = Box.shared.aliveGeometry
-                boxNode.position.z = 0.4
-                break
-            default:
-                break
-            }
-            
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        if touches.first != nil {
+            print("Updating...")
+            grid?.updateGrid()
+            placeBoxes()
         }
     }
     
@@ -127,5 +91,44 @@ class GameViewController: UIViewController {
             }
         }
         return (0, 0)
+    }
+    
+    func addRandomBlocks(n: Int) {
+        for _ in 0..<n {
+            guard let size = grid?.size else { return }
+            
+            var x = Int.random(in: 0..<size)
+            var y = Int.random(in: 0..<size)
+            var cell = grid?.grid[x][y]
+            
+            while cell?.status == .alive {
+                x = Int.random(in: 0..<size)
+                y = Int.random(in: 0..<size)
+                cell = grid?.grid[x][y]
+            }
+            
+            cell?.status = .alive
+        }
+        placeBoxes()
+        grid?.printGrid()
+    }
+    
+    func placeBoxes() {
+        guard let grid = self.grid?.grid else { return }
+        
+        for i in 0..<grid.count {
+            for j in 0..<grid.count {
+                let cell = grid[i][j]
+                let boxNode = gridBoxes[i][j]
+                if cell.status == .alive {
+                    boxNode.geometry = Box.shared.aliveGeometry
+                    boxNode.position.z = 0.4
+                } else {
+                    boxNode.geometry = Box.shared.deadGeometry
+                    boxNode.position.z = 0.0
+                }
+                
+            }
+        }
     }
 }

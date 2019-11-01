@@ -14,7 +14,7 @@ class Rule {
     var maxValue: Int
     var minValue: Int
     
-    init(initialStatus: CellStatus, finalStatus: CellStatus, maxValue: Int, minValue: Int) {
+    init(initialStatus: CellStatus, finalStatus: CellStatus, minValue: Int, maxValue: Int) {
         self.initialStatus = initialStatus
         self.finalStatus = finalStatus
         self.maxValue = maxValue
@@ -22,10 +22,11 @@ class Rule {
     }
     
     func applyRule(cell: Cell) {
-        if cell.aliveNeighbours >= minValue,
-            cell.aliveNeighbours <= maxValue,
+        if cell.aliveNeighbours >= minValue &&
+            cell.aliveNeighbours <= maxValue &&
             cell.status == initialStatus {
             cell.status = finalStatus
         }
     }
 }
+

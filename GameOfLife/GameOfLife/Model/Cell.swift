@@ -18,6 +18,13 @@ class Cell {
         status = .dead
         aliveNeighbours = 0
     }
+    
+    func copy() -> Cell {
+        let newCell = Cell(x: position.x, y: position.y)
+        newCell.aliveNeighbours = aliveNeighbours
+        newCell.status = status
+        return newCell
+    }
 }
 
 enum CellStatus {
