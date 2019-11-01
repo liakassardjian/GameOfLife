@@ -10,17 +10,19 @@ import UIKit
 import QuartzCore
 import SceneKit
 
-class GameViewController: UIViewController {
+class GameViewController: UIViewController, SCNSceneRendererDelegate {
 
     var grid: Grid?
 
     var gridBoxes: [[SCNNode]] = []
     var cameraNode: SCNNode!
     
+    var cont: TimeInterval = 0.0
+    var duration: TimeInterval = 1.0
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        // create a new scene
+
         let scene = SCNScene()
         
         Box.shared.setColors(deadColor: .gray, aliveColor: .red)
@@ -29,8 +31,8 @@ class GameViewController: UIViewController {
         createGrid(rootNode: scene.rootNode)
         addRandomBlocks(n: 100)
         
-        // retrieve the SCNView
         let scnView = self.view as! SCNView
+        scnView.delegate = self
 
         scnView.scene = scene
         scnView.pointOfView?.position = SCNVector3Make(0, 0, 0)
@@ -38,11 +40,11 @@ class GameViewController: UIViewController {
         setupCamera(rootNode: scene.rootNode)
         scnView.allowsCameraControl = true
 
-        // show statistics such as fps and timing information
         scnView.showsStatistics = true
 
-        // configure the view
         scnView.backgroundColor = UIColor.white
+        
+        scnView.isPlaying = true
         
     }
     
@@ -62,6 +64,13 @@ class GameViewController: UIViewController {
         }
     }
     
+    func setupCamera(rootNode: SCNNode) {
+        cameraNode = SCNNode()
+        cameraNode.camera = SCNCamera()
+        cameraNode.position = SCNVector3(x: 0, y: 0, z: 30)
+        rootNode.addChildNode(cameraNode)
+    }
+    
     func createGrid(rootNode: SCNNode) {
         guard let grid = self.grid else { return }
         
@@ -78,21 +87,11 @@ class GameViewController: UIViewController {
         }
     }
     
-    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-        if touches.first != nil {
-            grid?.updateGrid()
-            placeBoxes()
-        }
-    }
-    
-    func findCell(node: SCNNode) -> (i: Int, j: Int) {
-        for i in 0..<gridBoxes.count {
-            if let j = gridBoxes[i].firstIndex(of: node) {
-                return (i, j)
-            }
-        }
-        return (0, 0)
-    }
+//    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+//        if touches.first != nil {
+//
+//        }
+//    }
     
     func addRandomBlocks(n: Int) {
         for _ in 0..<n {
@@ -131,11 +130,12 @@ class GameViewController: UIViewController {
             }
         }
     }
-    
-    func setupCamera(rootNode: SCNNode) {
-      cameraNode = SCNNode()
-      cameraNode.camera = SCNCamera()
-      cameraNode.position = SCNVector3(x: 0, y: 0, z: 30)
-      rootNode.addChildNode(cameraNode)
+
+    func renderer(_ renderer: SCNSceneRenderer, updateAtTime time: TimeInterval) {
+        if time > cont {
+            grid?.updateGrid()
+            placeBoxes()
+            cont = time + duration
+        }
     }
 }
