@@ -10,13 +10,11 @@ import Foundation
 
 class Grid {
     var size: Int
-    var distance: Int
     var grid: [[Cell]]
     var rules: [Rule]
     
-    init(size: Int, distance: Int) {
+    init(size: Int) {
         self.size = size
-        self.distance = distance
         self.rules = []
         
         grid = [[Cell]]()

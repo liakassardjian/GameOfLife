@@ -27,9 +27,9 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate {
         
         Box.shared.setColors(aliveColor: .red)
         
-        grid = Grid(size: 15, distance: 8)
+        grid = Grid(size: 32)
         createGrid(rootNode: scene.rootNode)
-        addRandomBlocks(n: 100)
+        addRandomBlocks(n: 300)
         
         let scnView = self.view as! SCNView
         scnView.delegate = self
@@ -37,12 +37,13 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate {
         scnView.scene = scene
         scnView.pointOfView?.position = SCNVector3Make(0, 0, 0)
 
+        setupLight(rootNode: scene.rootNode)
         setupCamera(rootNode: scene.rootNode)
         scnView.allowsCameraControl = true
 
-        scnView.showsStatistics = true
+//        scnView.showsStatistics = true
 
-        scnView.backgroundColor = UIColor.white
+        scnView.backgroundColor = UIColor.black
         
         scnView.isPlaying = true
         
@@ -67,8 +68,22 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate {
     func setupCamera(rootNode: SCNNode) {
         cameraNode = SCNNode()
         cameraNode.camera = SCNCamera()
-        cameraNode.position = SCNVector3(x: 0, y: 0, z: 30)
+        cameraNode.position = SCNVector3(x: 0, y: 0, z: 65)
         rootNode.addChildNode(cameraNode)
+    }
+    
+    func setupLight(rootNode: SCNNode) {
+        let lightNode = SCNNode()
+        lightNode.light = SCNLight()
+        lightNode.light!.type = .omni
+        lightNode.position = SCNVector3(x: 0, y: 10, z: 10)
+        rootNode.addChildNode(lightNode)
+
+        let ambientLightNode = SCNNode()
+        ambientLightNode.light = SCNLight()
+        ambientLightNode.light!.type = .ambient
+        ambientLightNode.light!.color = UIColor.gray
+        rootNode.addChildNode(ambientLightNode)
     }
     
     func createGrid(rootNode: SCNNode) {
@@ -80,6 +95,15 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate {
                 self.gridBoxes[i].append(nil)
             }
         }
+    }
+    
+    func createBox(x: Int, y: Int, size: Int) -> SCNNode {
+        let boxNode = SCNNode(geometry: Box.shared.aliveGeometry)
+        boxNode.position.x = Float(x - size/2)
+        boxNode.position.y = Float(y - size/2)
+        boxNode.position.z = 0.4
+        
+        return boxNode
     }
     
     func addRandomBlocks(n: Int) {
@@ -137,13 +161,5 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate {
             cont = time + duration
         }
     }
-    
-    func createBox(x: Int, y: Int, size: Int) -> SCNNode {
-        let boxNode = SCNNode(geometry: Box.shared.aliveGeometry)
-        boxNode.position.x = Float(x - size/2)
-        boxNode.position.y = Float(y - size/2)
-        boxNode.position.z = 0.4
-        
-        return boxNode
-    }
+
 }
