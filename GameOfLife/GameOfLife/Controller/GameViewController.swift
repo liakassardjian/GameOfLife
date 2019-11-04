@@ -33,8 +33,8 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate {
         
         Box.shared.setColors(aliveColor: .red)
         
-        grid = Grid(size: 20, geometryCount: geometry.count)
-        addRandomBlocks(n: 250)
+        grid = Grid(size: 32, geometryCount: geometry.count)
+        addRandomBlocks(n: 400)
         
         let scnView = self.view as! SCNView
         scnView.delegate = self

@@ -69,12 +69,16 @@ class Grid {
     
     func findPredominantNumber(array: [Int]) -> Int {
         var biggest: Int = 0
-        var index: Int = 0
+        var index = Int.random(in: 0..<array.count)
         
         for i in 0..<array.count {
             if array[i] > biggest {
                 biggest = array[i]
                 index = i
+            } else if array[i] == biggest {
+                if Int.random(in: 0...1) == 1 {
+                    index = i
+                }
             }
         }
         
