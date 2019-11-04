@@ -11,11 +11,13 @@ import Foundation
 class Grid {
     var size: Int
     var generation: Int
+    var geometryCount: Int
     var grid: [[Cell]]
     var rules: [Rule]
     
-    init(size: Int) {
+    init(size: Int, geometryCount: Int) {
         self.size = size
+        self.geometryCount = geometryCount
         self.generation = 0
         self.rules = []
         
@@ -34,22 +36,53 @@ class Grid {
         var i = cell.position.x - 1
         var aliveNeighbours = 0
         
+        var geometry = [Int]()
+        for _ in 0..<geometryCount {
+            geometry.append(0)
+        }
+        
         while i <= cell.position.x + 1 {
             var j = cell.position.y - 1
             
-            while j <= cell.position.y + 1 {
-                if !(i == cell.position.x && j == cell.position.y),
-                    i >= 0 && i < size,
-                    j >= 0 && j < size {
-                    if grid[i][j].status == .alive {
-                        aliveNeighbours += 1
+            if i >= 0 && i < size {
+                
+                while j <= cell.position.y + 1 {
+                    
+                    if !(i == cell.position.x &&
+                        j == cell.position.y),
+                        j >= 0 && j < size {
+                        
+                        if grid[i][j].status == .alive {
+                            aliveNeighbours += 1
+                            geometry[grid[i][j].geometry] += 1
+                        }
                     }
+                    j += 1
                 }
-                j += 1
+                
             }
             i += 1
         }
         cell.aliveNeighbours = aliveNeighbours
+        cell.neighboursGeometry = findPredominantNumber(array: geometry)
+    }
+    
+    func findPredominantNumber(array: [Int]) -> Int {
+        var biggest: Int = 0
+        var index = Int.random(in: 0..<array.count)
+        
+        for i in 0..<array.count {
+            if array[i] > biggest {
+                biggest = array[i]
+                index = i
+            } else if array[i] == biggest {
+                if Int.random(in: 0...1) == 1 {
+                    index = i
+                }
+            }
+        }
+        
+        return index
     }
     
     func addRules() {

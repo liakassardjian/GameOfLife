@@ -20,6 +20,12 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate {
     var cont: TimeInterval = 0.0
     var duration: TimeInterval = 0.2
     
+    var geometry: [SCNBox] = [Box.shared.redGeometry,
+                              Box.shared.blueGeometry,
+                              Box.shared.whiteGeometry,
+                              Box.shared.yellowGeometry,
+                              Box.shared.greenGeometry]
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -27,8 +33,8 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate {
         
         Box.shared.setColors(aliveColor: .red)
         
-        grid = Grid(size: 20)
-        addRandomBlocks(n: 250)
+        grid = Grid(size: 32, geometryCount: geometry.count)
+        addRandomBlocks(n: 400)
         
         let scnView = self.view as! SCNView
         scnView.delegate = self
@@ -98,8 +104,8 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate {
         }
     }
     
-    func createBox(x: Int, y: Int, size: Int) -> SCNNode {
-        let boxNode = SCNNode(geometry: Box.shared.aliveGeometry)
+    func createBox(x: Int, y: Int, size: Int, g: Int) -> SCNNode {
+        let boxNode = SCNNode(geometry: geometry[g])
         boxNode.position.x = Float(x - size/2)
         boxNode.position.y = Float(y - size/2)
         
@@ -123,6 +129,7 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate {
                 cell = grid?.grid[x][y]
             }
             
+            cell?.geometry = Int.random(in: 0..<geometry.count)
             cell?.status = .alive
         }
         placeBoxes()
@@ -144,7 +151,7 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate {
                     let boxNode = self.gridBoxes[grid.generation][i][j]
                     if cell.status == .alive {
                         if boxNode == nil {
-                            self.gridBoxes[grid.generation][i][j] = self.createBox(x: cell.position.x, y: cell.position.y, size: grid.size)
+                            self.gridBoxes[grid.generation][i][j] = self.createBox(x: cell.position.x, y: cell.position.y, size: grid.size, g: cell.geometry)
                         }
                         
                         guard let box = self.gridBoxes[grid.generation][i][j] else { return }
