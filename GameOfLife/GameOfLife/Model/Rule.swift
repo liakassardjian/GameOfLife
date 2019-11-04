@@ -11,8 +11,8 @@ import Foundation
 class Rule {
     var initialStatus: CellStatus
     var finalStatus: CellStatus
-    var maxValue: Int
     var minValue: Int
+    var maxValue: Int
     
     init(initialStatus: CellStatus, finalStatus: CellStatus, minValue: Int, maxValue: Int) {
         self.initialStatus = initialStatus
