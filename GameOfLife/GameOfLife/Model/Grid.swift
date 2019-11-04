@@ -10,11 +10,13 @@ import Foundation
 
 class Grid {
     var size: Int
+    var generation: Int
     var grid: [[Cell]]
     var rules: [Rule]
     
     init(size: Int) {
         self.size = size
+        self.generation = 0
         self.rules = []
         
         grid = [[Cell]]()
@@ -76,6 +78,7 @@ class Grid {
             }
         }
         grid = newGrid
+        self.generation += 1
     }
     
     func printGrid() {
