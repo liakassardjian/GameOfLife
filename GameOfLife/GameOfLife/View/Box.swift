@@ -14,10 +14,18 @@ class Box {
     
     private init() {}
     
-    var aliveGeometry = SCNBox(width: 0.9, height: 0.9, length: 0.9, chamferRadius: 0.005)
+    var redGeometry = SCNBox(width: 0.9, height: 0.9, length: 0.9, chamferRadius: 0.005)
+    var blueGeometry = SCNBox(width: 0.9, height: 0.9, length: 0.9, chamferRadius: 0.005)
+    var whiteGeometry = SCNBox(width: 0.9, height: 0.9, length: 0.9, chamferRadius: 0.005)
+    var yellowGeometry = SCNBox(width: 0.9, height: 0.9, length: 0.9, chamferRadius: 0.005)
+    var greenGeometry = SCNBox(width: 0.9, height: 0.9, length: 0.9, chamferRadius: 0.005)
     
     func setColors(aliveColor: UIColor) {
-        aliveGeometry.firstMaterial?.diffuse.contents = aliveColor
+        redGeometry.firstMaterial?.diffuse.contents = UIColor.systemRed
+        blueGeometry.firstMaterial?.diffuse.contents = UIColor.systemBlue
+        whiteGeometry.firstMaterial?.diffuse.contents = UIColor.white
+        yellowGeometry.firstMaterial?.diffuse.contents = UIColor.systemYellow
+        greenGeometry.firstMaterial?.diffuse.contents = UIColor.systemGreen
     }
     
 }

@@ -26,6 +26,7 @@ class Rule {
             cell.aliveNeighbours <= maxValue &&
             cell.status == initialStatus {
             cell.status = finalStatus
+            cell.geometry = cell.neighboursGeometry
         }
     }
 }
