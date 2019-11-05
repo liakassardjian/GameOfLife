@@ -181,9 +181,9 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate {
             grid?.updateGrid()
             placeBoxes()
             cont = time + duration
-            let posY = cameraNode.position.y - 0.5
+            let posY = -40.0
             let posZ = cameraNode.position.z - 0.5
-            let moveCamera = SCNAction.move(to: SCNVector3(0, posY, posZ), duration: duration)
+            let moveCamera = SCNAction.move(to: SCNVector3(0.0, posY, Double(posZ)), duration: duration)
             cameraNode.runAction(moveCamera)
         }
     }
