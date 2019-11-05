@@ -22,7 +22,7 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate {
     
     var geometry: [SCNBox] = [Box.shared.redGeometry,
                               Box.shared.blueGeometry,
-                              Box.shared.whiteGeometry,
+                              Box.shared.orangeGeometry,
                               Box.shared.yellowGeometry,
                               Box.shared.greenGeometry]
     
@@ -31,7 +31,7 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate {
 
         let scene = SCNScene()
         
-        Box.shared.setColors(aliveColor: .red)
+        Box.shared.setColors()
         
         grid = Grid(size: 32, geometryCount: geometry.count)
         addRandomBlocks(n: 400)
@@ -110,7 +110,7 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate {
         boxNode.position.y = Float(y - size/2)
         
         guard let generation = grid?.generation else { return boxNode }
-        boxNode.position.z = 0.45 * Float(generation)
+        boxNode.position.z = 0.5 * Float(generation)
         
         return boxNode
     }
@@ -170,7 +170,7 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate {
             for i in 0..<grid.grid.count {
                 for j in 0..<grid.grid.count {
                     let boxNode = gridBoxes[g][i][j]
-                    boxNode?.position.z = 0.45 * Float(grid.generation - g)
+                    boxNode?.position.z = 0.5 * Float(grid.generation - g)
                 }
             }
         }
@@ -181,8 +181,8 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate {
             grid?.updateGrid()
             placeBoxes()
             cont = time + duration
-            let posY = cameraNode.position.y - 0.45
-            let posZ = cameraNode.position.z + 0.45
+            let posY = cameraNode.position.y - 0.5
+            let posZ = cameraNode.position.z + 0.5
             let moveCamera = SCNAction.move(to: SCNVector3(0, posY, posZ), duration: duration)
             cameraNode.runAction(moveCamera)
         }

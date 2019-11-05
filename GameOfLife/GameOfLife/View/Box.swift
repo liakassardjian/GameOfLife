@@ -16,16 +16,26 @@ class Box {
     
     var redGeometry = SCNBox(width: 0.9, height: 0.9, length: 0.9, chamferRadius: 0.005)
     var blueGeometry = SCNBox(width: 0.9, height: 0.9, length: 0.9, chamferRadius: 0.005)
-    var whiteGeometry = SCNBox(width: 0.9, height: 0.9, length: 0.9, chamferRadius: 0.005)
+    var orangeGeometry = SCNBox(width: 0.9, height: 0.9, length: 0.9, chamferRadius: 0.005)
     var yellowGeometry = SCNBox(width: 0.9, height: 0.9, length: 0.9, chamferRadius: 0.005)
     var greenGeometry = SCNBox(width: 0.9, height: 0.9, length: 0.9, chamferRadius: 0.005)
     
-    func setColors(aliveColor: UIColor) {
+    func setColors() {
         redGeometry.firstMaterial?.diffuse.contents = UIColor.systemRed
+        redGeometry.firstMaterial?.specular.contents = UIColor.white
+
         blueGeometry.firstMaterial?.diffuse.contents = UIColor.systemBlue
-        whiteGeometry.firstMaterial?.diffuse.contents = UIColor.white
+        blueGeometry.firstMaterial?.specular.contents = UIColor.white
+
+        orangeGeometry.firstMaterial?.diffuse.contents = UIColor.systemPurple
+        orangeGeometry.firstMaterial?.specular.contents = UIColor.white
+
         yellowGeometry.firstMaterial?.diffuse.contents = UIColor.systemYellow
+        yellowGeometry.firstMaterial?.specular.contents = UIColor.white
+
         greenGeometry.firstMaterial?.diffuse.contents = UIColor.systemGreen
+        greenGeometry.firstMaterial?.specular.contents = UIColor.white
+
     }
     
 }
