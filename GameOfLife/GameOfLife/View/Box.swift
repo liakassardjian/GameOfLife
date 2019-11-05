@@ -19,6 +19,10 @@ class Box {
     var purpleGeometry = SCNBox(width: 0.9, height: 0.9, length: 0.9, chamferRadius: 0.005)
     var yellowGeometry = SCNBox(width: 0.9, height: 0.9, length: 0.9, chamferRadius: 0.005)
     var greenGeometry = SCNBox(width: 0.9, height: 0.9, length: 0.9, chamferRadius: 0.005)
+    var orangeGeometry = SCNBox(width: 0.9, height: 0.9, length: 0.9, chamferRadius: 0.005)
+    var pinkGeometry = SCNBox(width: 0.9, height: 0.9, length: 0.9, chamferRadius: 0.005)
+
+
     
     func setColors() {
         redGeometry.firstMaterial?.diffuse.contents = UIColor.systemRed
@@ -35,6 +39,12 @@ class Box {
 
         greenGeometry.firstMaterial?.diffuse.contents = UIColor.systemGreen
         greenGeometry.firstMaterial?.specular.contents = UIColor.white
+        
+        orangeGeometry.firstMaterial?.diffuse.contents = UIColor.systemOrange
+        orangeGeometry.firstMaterial?.specular.contents = UIColor.white
+        
+        pinkGeometry.firstMaterial?.diffuse.contents = UIColor.systemPink
+        pinkGeometry.firstMaterial?.specular.contents = UIColor.white
 
     }
     

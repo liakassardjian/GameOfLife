@@ -24,7 +24,9 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate {
                               Box.shared.blueGeometry,
                               Box.shared.purpleGeometry,
                               Box.shared.yellowGeometry,
-                              Box.shared.greenGeometry]
+                              Box.shared.greenGeometry,
+                              Box.shared.orangeGeometry,
+                              Box.shared.pinkGeometry]
     
     override func viewDidLoad() {
         super.viewDidLoad()
