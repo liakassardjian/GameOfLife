@@ -22,7 +22,7 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate {
     
     var geometry: [SCNBox] = [Box.shared.redGeometry,
                               Box.shared.blueGeometry,
-                              Box.shared.orangeGeometry,
+                              Box.shared.purpleGeometry,
                               Box.shared.yellowGeometry,
                               Box.shared.greenGeometry]
     
@@ -71,7 +71,7 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate {
     func setupCamera(rootNode: SCNNode) {
         cameraNode = SCNNode()
         cameraNode.camera = SCNCamera()
-        cameraNode.position = SCNVector3(x: 0, y: -50, z: 20)
+        cameraNode.position = SCNVector3(x: 0, y: -40, z: -20)
         cameraNode.look(at: SCNVector3(0, 0, 0))
         
         rootNode.addChildNode(cameraNode)
@@ -82,7 +82,7 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate {
         let lightNode = SCNNode()
         lightNode.light = SCNLight()
         lightNode.light!.type = .omni
-        lightNode.position = SCNVector3(x: 0, y: 10, z: 10)
+        lightNode.position = SCNVector3(x: 0, y: -100, z: -100)
         rootNode.addChildNode(lightNode)
 
         let ambientLightNode = SCNNode()
@@ -182,7 +182,7 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate {
             placeBoxes()
             cont = time + duration
             let posY = cameraNode.position.y - 0.5
-            let posZ = cameraNode.position.z + 0.5
+            let posZ = cameraNode.position.z - 0.5
             let moveCamera = SCNAction.move(to: SCNVector3(0, posY, posZ), duration: duration)
             cameraNode.runAction(moveCamera)
         }
