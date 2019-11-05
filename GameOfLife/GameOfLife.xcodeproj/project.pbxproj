@@ -17,6 +17,7 @@
 		E4D13CBB236B4FB200F1366B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E4D13CB9236B4FB200F1366B /* LaunchScreen.storyboard */; };
 		E4D13CC3236B68D400F1366B /* Cell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4D13CC2236B68D400F1366B /* Cell.swift */; };
 		E4D13CC7236B6A3700F1366B /* Grid.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4D13CC6236B6A3700F1366B /* Grid.swift */; };
+		E4EEB5502371DE340073673A /* Sphere.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4EEB54F2371DE340073673A /* Sphere.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,6 +33,7 @@
 		E4D13CBC236B4FB200F1366B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E4D13CC2236B68D400F1366B /* Cell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cell.swift; sourceTree = "<group>"; };
 		E4D13CC6236B6A3700F1366B /* Grid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Grid.swift; sourceTree = "<group>"; };
+		E4EEB54F2371DE340073673A /* Sphere.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sphere.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -49,6 +51,7 @@
 			isa = PBXGroup;
 			children = (
 				E4489873236B71F300067BC2 /* Box.swift */,
+				E4EEB54F2371DE340073673A /* Sphere.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -175,6 +178,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E4EEB5502371DE340073673A /* Sphere.swift in Sources */,
 				E4D13CB3236B4FAF00F1366B /* GameViewController.swift in Sources */,
 				E4D13CAF236B4FAF00F1366B /* AppDelegate.swift in Sources */,
 				E4D13CC3236B68D400F1366B /* Cell.swift in Sources */,
