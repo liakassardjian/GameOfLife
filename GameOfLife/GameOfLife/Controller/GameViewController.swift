@@ -94,8 +94,8 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate {
         rootNode.addChildNode(ambientLightNode)
     }
     
-    func createGrid(rootNode: SCNNode) {
-        guard let grid = self.grid else { return }
+    func createGrid(rootNode: SCNNode) -> Bool {
+        guard let grid = self.grid else { return false }
         gridBoxes.append([[SCNNode]]())
         
         for i in 0..<grid.size {
@@ -104,6 +104,8 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate {
                 self.gridBoxes[grid.generation][i].append(nil)
             }
         }
+        
+        return true
     }
     
     func createBox(x: Int, y: Int, size: Int, g: Int) -> SCNNode {
@@ -143,25 +145,33 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate {
         DispatchQueue.main.async {
             guard let scnView = self.view as? SCNView else { return }
             guard let scene = scnView.scene else { return }
-            self.createGrid(rootNode: scene.rootNode)
-            
-            self.replaceBoxes()
-            
-            for i in 0..<grid.grid.count {
-                for j in 0..<grid.grid.count {
-                    let cell = grid.grid[i][j]
-                    let boxNode = self.gridBoxes[grid.generation][i][j]
-                    if cell.status == .alive {
-                        if boxNode == nil {
-                            self.gridBoxes[grid.generation][i][j] = self.createBox(x: cell.position.x, y: cell.position.y, size: grid.size, g: cell.geometry)
-                        }
+            if self.createGrid(rootNode: scene.rootNode) {
+                self.replaceBoxes()
+                print(grid.generation)
+                
+                if grid.generation - 100 >= 0 {
+                    self.removeGeneration(g: grid.generation - 100)
+                }
+                
+                for i in 0..<grid.grid.count {
+                    for j in 0..<grid.grid.count {
+                        let cell = grid.grid[i][j]
                         
-                        guard let box = self.gridBoxes[grid.generation][i][j] else { return }
-        
-                        scene.rootNode.addChildNode(box)
+                        let boxNode = self.gridBoxes[grid.generation][i][j]
+                        if cell.status == .alive {
+                            if boxNode == nil {
+                                self.gridBoxes[grid.generation][i][j] = self.createBox(x: cell.position.x, y: cell.position.y, size: grid.size, g: cell.geometry)
+                            }
+                            
+                            guard let box = self.gridBoxes[grid.generation][i][j] else { return }
+                            
+                            scene.rootNode.addChildNode(box)
+                        }
                     }
                 }
+                
             }
+            
         }
     }
     
@@ -176,6 +186,18 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate {
                 }
             }
         }
+    }
+    
+    func removeGeneration(g: Int) {
+        for i in 0..<gridBoxes[g].count {
+            for j in 0..<gridBoxes[g][i].count {
+                gridBoxes[g][i][j]?.removeFromParentNode()
+                gridBoxes[g][i][j]?.geometry?.firstMaterial?.diffuse.contents = nil
+                gridBoxes[g][i][j]?.geometry?.firstMaterial?.specular.contents = nil
+                gridBoxes[g][i][j] = nil
+            }
+        }
+        
     }
 
     func renderer(_ renderer: SCNSceneRenderer, updateAtTime time: TimeInterval) {
